@@ -1,0 +1,496 @@
+
+UART.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000200  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00000200  00000294  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000003  00800060  00800060  00000294  2**0
+                  ALLOC
+  3 .stab         000006cc  00000000  00000000  00000294  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  4 .stabstr      00000097  00000000  00000000  00000960  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .comment      0000002f  00000000  00000000  000009f7  2**0
+                  CONTENTS, READONLY
+  6 .debug_aranges 000000d0  00000000  00000000  00000a26  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_info   000007ea  00000000  00000000  00000af6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_abbrev 000003f1  00000000  00000000  000012e0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_line   0000048b  00000000  00000000  000016d1  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_frame  00000150  00000000  00000000  00001b5c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_str    0000023f  00000000  00000000  00001cac  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_loc    000002f7  00000000  00000000  00001eeb  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 13 .debug_ranges 00000090  00000000  00000000  000021e2  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  34:	0c 94 c6 00 	jmp	0x18c	; 0x18c <__vector_13>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_clear_bss>:
+  60:	20 e0       	ldi	r18, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
+
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	a3 36       	cpi	r26, 0x63	; 99
+  6c:	b2 07       	cpc	r27, r18
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 be 00 	call	0x17c	; 0x17c <main>
+  74:	0c 94 fe 00 	jmp	0x1fc	; 0x1fc <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <lcdcommand>:
+#define LCD_EN 2
+
+tenum_TF lcdcommand( uint_8 cmmd)
+{
+	tenum_TF ret_val = TRUE ;
+	if( cmmd != 0)
+  7c:	88 23       	and	r24, r24
+  7e:	61 f0       	breq	.+24     	; 0x98 <lcdcommand+0x1c>
+	{
+		LCD_DPORT = cmmd ;
+  80:	8b bb       	out	0x1b, r24	; 27
+		LCD_CPORT &= ~(1<< LCD_RS);
+  82:	c0 98       	cbi	0x18, 0	; 24
+		LCD_CPORT &= ~(1<< LCD_RW);
+  84:	c1 98       	cbi	0x18, 1	; 24
+		LCD_CPORT |=  (1<< LCD_EN);
+  86:	c2 9a       	sbi	0x18, 2	; 24
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  88:	00 00       	nop
+		_delay_us(1);
+		LCD_CPORT &= ~(1<< LCD_EN);
+  8a:	c2 98       	cbi	0x18, 2	; 24
+  8c:	81 e2       	ldi	r24, 0x21	; 33
+  8e:	8a 95       	dec	r24
+  90:	f1 f7       	brne	.-4      	; 0x8e <lcdcommand+0x12>
+  92:	00 00       	nop
+#define LCD_RW 1
+#define LCD_EN 2
+
+tenum_TF lcdcommand( uint_8 cmmd)
+{
+	tenum_TF ret_val = TRUE ;
+  94:	80 e0       	ldi	r24, 0x00	; 0
+  96:	08 95       	ret
+		LCD_CPORT &= ~(1<< LCD_EN);
+		_delay_us(100);
+	}
+	else
+	{
+		ret_val = FALSE ;
+  98:	81 e0       	ldi	r24, 0x01	; 1
+
+	}
+	
+	return ret_val ;
+}
+  9a:	08 95       	ret
+
+0000009c <LCD_goto_xy>:
+
+void LCD_goto_xy( uint_8 x , uint_8 y)
+{
+  9c:	cf 93       	push	r28
+  9e:	df 93       	push	r29
+  a0:	00 d0       	rcall	.+0      	; 0xa2 <LCD_goto_xy+0x6>
+  a2:	00 d0       	rcall	.+0      	; 0xa4 <LCD_goto_xy+0x8>
+  a4:	cd b7       	in	r28, 0x3d	; 61
+  a6:	de b7       	in	r29, 0x3e	; 62
+	uint_8 firstcharadd[] = { 0x80 , 0xC0 , 0x94 , 0xD4 };
+  a8:	90 e8       	ldi	r25, 0x80	; 128
+  aa:	99 83       	std	Y+1, r25	; 0x01
+  ac:	90 ec       	ldi	r25, 0xC0	; 192
+  ae:	9a 83       	std	Y+2, r25	; 0x02
+  b0:	94 e9       	ldi	r25, 0x94	; 148
+  b2:	9b 83       	std	Y+3, r25	; 0x03
+  b4:	94 ed       	ldi	r25, 0xD4	; 212
+  b6:	9c 83       	std	Y+4, r25	; 0x04
+	lcdcommand( firstcharadd[y-1] + x - 1 ) ;
+  b8:	81 50       	subi	r24, 0x01	; 1
+  ba:	fe 01       	movw	r30, r28
+  bc:	e6 0f       	add	r30, r22
+  be:	f1 1d       	adc	r31, r1
+  c0:	90 81       	ld	r25, Z
+  c2:	89 0f       	add	r24, r25
+  c4:	0e 94 3e 00 	call	0x7c	; 0x7c <lcdcommand>
+  c8:	81 e2       	ldi	r24, 0x21	; 33
+  ca:	8a 95       	dec	r24
+  cc:	f1 f7       	brne	.-4      	; 0xca <LCD_goto_xy+0x2e>
+  ce:	00 00       	nop
+	_delay_us(100);
+	
+}
+  d0:	0f 90       	pop	r0
+  d2:	0f 90       	pop	r0
+  d4:	0f 90       	pop	r0
+  d6:	0f 90       	pop	r0
+  d8:	df 91       	pop	r29
+  da:	cf 91       	pop	r28
+  dc:	08 95       	ret
+
+000000de <LCD_CLEAR>:
+
+void LCD_CLEAR  ()
+{
+	lcdcommand( 0x01);
+  de:	81 e0       	ldi	r24, 0x01	; 1
+  e0:	0e 94 3e 00 	call	0x7c	; 0x7c <lcdcommand>
+	LCD_goto_xy(0 , 0 );
+  e4:	60 e0       	ldi	r22, 0x00	; 0
+  e6:	80 e0       	ldi	r24, 0x00	; 0
+  e8:	0e 94 4e 00 	call	0x9c	; 0x9c <LCD_goto_xy>
+  ec:	08 95       	ret
+
+000000ee <init_LCD_HALL>:
+	
+}
+
+void init_LCD_HALL  ()
+{
+	LCD_DDDRA = 0xFF ;
+  ee:	8f ef       	ldi	r24, 0xFF	; 255
+  f0:	8a bb       	out	0x1a, r24	; 26
+	LCD_CDDRB = 0xFF ;
+  f2:	87 bb       	out	0x17, r24	; 23
+	LCD_CPORT &= ~(1<< LCD_EN);
+  f4:	c2 98       	cbi	0x18, 2	; 24
+  f6:	83 ef       	ldi	r24, 0xF3	; 243
+  f8:	91 e0       	ldi	r25, 0x01	; 1
+  fa:	01 97       	sbiw	r24, 0x01	; 1
+  fc:	f1 f7       	brne	.-4      	; 0xfa <init_LCD_HALL+0xc>
+  fe:	00 c0       	rjmp	.+0      	; 0x100 <init_LCD_HALL+0x12>
+ 100:	00 00       	nop
+	_delay_us(2000);
+	lcdcommand(0x38);
+ 102:	88 e3       	ldi	r24, 0x38	; 56
+ 104:	0e 94 3e 00 	call	0x7c	; 0x7c <lcdcommand>
+	lcdcommand(0x0E);
+ 108:	8e e0       	ldi	r24, 0x0E	; 14
+ 10a:	0e 94 3e 00 	call	0x7c	; 0x7c <lcdcommand>
+	lcdcommand(0x01);
+ 10e:	81 e0       	ldi	r24, 0x01	; 1
+ 110:	0e 94 3e 00 	call	0x7c	; 0x7c <lcdcommand>
+ 114:	83 ef       	ldi	r24, 0xF3	; 243
+ 116:	91 e0       	ldi	r25, 0x01	; 1
+ 118:	01 97       	sbiw	r24, 0x01	; 1
+ 11a:	f1 f7       	brne	.-4      	; 0x118 <init_LCD_HALL+0x2a>
+ 11c:	00 c0       	rjmp	.+0      	; 0x11e <init_LCD_HALL+0x30>
+ 11e:	00 00       	nop
+	_delay_us(2000);
+	lcdcommand(0x06);
+ 120:	86 e0       	ldi	r24, 0x06	; 6
+ 122:	0e 94 3e 00 	call	0x7c	; 0x7c <lcdcommand>
+	LCD_goto_xy(0 , 0 ) ;
+ 126:	60 e0       	ldi	r22, 0x00	; 0
+ 128:	80 e0       	ldi	r24, 0x00	; 0
+ 12a:	0e 94 4e 00 	call	0x9c	; 0x9c <LCD_goto_xy>
+ 12e:	08 95       	ret
+
+00000130 <lcddata>:
+
+
+tenum_TF lcddata   ( uint_8 data)
+{
+	tenum_TF ret_val = TRUE ;
+	if( data != 0)
+ 130:	88 23       	and	r24, r24
+ 132:	69 f0       	breq	.+26     	; 0x14e <lcddata+0x1e>
+	{
+		LCD_DPORT = (data -'0');
+ 134:	80 53       	subi	r24, 0x30	; 48
+ 136:	8b bb       	out	0x1b, r24	; 27
+		LCD_CPORT |=  ( 1<<LCD_RS );
+ 138:	c0 9a       	sbi	0x18, 0	; 24
+		LCD_CPORT &= ~( 1<<LCD_RW );
+ 13a:	c1 98       	cbi	0x18, 1	; 24
+		LCD_CPORT |=  ( 1<<LCD_EN );
+ 13c:	c2 9a       	sbi	0x18, 2	; 24
+ 13e:	00 00       	nop
+		_delay_us(1);
+		LCD_CPORT &= ~(1<< LCD_EN);
+ 140:	c2 98       	cbi	0x18, 2	; 24
+ 142:	81 e2       	ldi	r24, 0x21	; 33
+ 144:	8a 95       	dec	r24
+ 146:	f1 f7       	brne	.-4      	; 0x144 <lcddata+0x14>
+ 148:	00 00       	nop
+}
+
+
+tenum_TF lcddata   ( uint_8 data)
+{
+	tenum_TF ret_val = TRUE ;
+ 14a:	80 e0       	ldi	r24, 0x00	; 0
+ 14c:	08 95       	ret
+		_delay_us(100);
+		
+	}
+	else
+	{
+		ret_val = FALSE ;
+ 14e:	81 e0       	ldi	r24, 0x01	; 1
+
+	}
+	
+	return ret_val ;
+	
+}
+ 150:	08 95       	ret
+
+00000152 <LCD_PRINT_HALL>:
+
+tenum_TF LCD_PRINT_HALL ( uint_8 str_DIS_data)
+{
+	tenum_TF ret_val = TRUE ;
+	static uint_8 counter = 0 ;
+	if ( str_DIS_data != 0 )
+ 152:	88 23       	and	r24, r24
+ 154:	89 f0       	breq	.+34     	; 0x178 <LCD_PRINT_HALL+0x26>
+		{
+			lcddata(str_DIS_data[i]);
+			i++ ;
+			
+		}*/
+		lcddata( str_DIS_data );
+ 156:	0e 94 98 00 	call	0x130	; 0x130 <lcddata>
+		if (counter > 96)
+ 15a:	80 91 60 00 	lds	r24, 0x0060
+ 15e:	81 36       	cpi	r24, 0x61	; 97
+ 160:	20 f0       	brcs	.+8      	; 0x16a <LCD_PRINT_HALL+0x18>
+		{
+			LCD_CLEAR  () ;
+ 162:	0e 94 6f 00 	call	0xde	; 0xde <LCD_CLEAR>
+			counter = 0 ;
+ 166:	10 92 60 00 	sts	0x0060, r1
+		}
+		counter++; 
+ 16a:	80 91 60 00 	lds	r24, 0x0060
+ 16e:	8f 5f       	subi	r24, 0xFF	; 255
+ 170:	80 93 60 00 	sts	0x0060, r24
+	
+}
+
+tenum_TF LCD_PRINT_HALL ( uint_8 str_DIS_data)
+{
+	tenum_TF ret_val = TRUE ;
+ 174:	80 e0       	ldi	r24, 0x00	; 0
+ 176:	08 95       	ret
+		}
+		counter++; 
+	}
+	else
+	{
+		ret_val = FALSE ;
+ 178:	81 e0       	ldi	r24, 0x01	; 1
+	}
+	
+	return ret_val ;
+}
+ 17a:	08 95       	ret
+
+0000017c <main>:
+#include <avr/interrupt.h>
+#include "UART_RX.h"
+#define F_CPU 8000000UL
+int main(void)
+{
+	LCD_init();
+ 17c:	0e 94 ec 00 	call	0x1d8	; 0x1d8 <LCD_init>
+	UART_RX_init  ();
+ 180:	0e 94 e9 00 	call	0x1d2	; 0x1d2 <UART_RX_init>
+    
+	sei();
+ 184:	78 94       	sei
+    while(1)
+    {
+		start();
+ 186:	0e 94 f7 00 	call	0x1ee	; 0x1ee <start>
+ 18a:	fd cf       	rjmp	.-6      	; 0x186 <main+0xa>
+
+0000018c <__vector_13>:
+//tenum_TF LCD_PRINT  ( uint_8 str_DIS_data ) ;
+//uint_8 *ptr_call_back_fun ;
+uint_8 flag = 0 ;
+
+ISR(USART_RXC_vect)
+{
+ 18c:	1f 92       	push	r1
+ 18e:	0f 92       	push	r0
+ 190:	0f b6       	in	r0, 0x3f	; 63
+ 192:	0f 92       	push	r0
+ 194:	11 24       	eor	r1, r1
+ 196:	8f 93       	push	r24
+	//while ( !(UCSRA & ( HIGH << RXC )) );
+	flag = 1 ;
+ 198:	81 e0       	ldi	r24, 0x01	; 1
+ 19a:	80 93 61 00 	sts	0x0061, r24
+	
+}
+ 19e:	8f 91       	pop	r24
+ 1a0:	0f 90       	pop	r0
+ 1a2:	0f be       	out	0x3f, r0	; 63
+ 1a4:	0f 90       	pop	r0
+ 1a6:	1f 90       	pop	r1
+ 1a8:	18 95       	reti
+
+000001aa <UART_init_RX_HALL>:
+
+void UART_init_RX_HALL()
+{
+	//UCSRA |= ( HIGH << RXC ) | ( LOW << TXC ) | ( LOW << UDRE ) | ( LOW << FE ) | ( LOW << DOR ) | ( LOW << PE ) | ( LOW << U2X ) | ( LOW << MPCM ) ; //UCSRA
+	UCSRB |= ( HIGH << RXCIE) | ( HIGH << RXEN )  | ( LOW << UCSZ2 ) ;
+ 1aa:	8a b1       	in	r24, 0x0a	; 10
+ 1ac:	80 69       	ori	r24, 0x90	; 144
+ 1ae:	8a b9       	out	0x0a, r24	; 10
+	UCSRC |= ( HIGH << URSEL) | ( HIGH << UCSZ1)  | ( HIGH << UCSZ0) ;
+ 1b0:	80 b5       	in	r24, 0x20	; 32
+ 1b2:	86 68       	ori	r24, 0x86	; 134
+ 1b4:	80 bd       	out	0x20, r24	; 32
+	UBRRH = 0x00 ; 
+ 1b6:	10 bc       	out	0x20, r1	; 32
+	UBRRL = 0x33 ;
+ 1b8:	83 e3       	ldi	r24, 0x33	; 51
+ 1ba:	89 b9       	out	0x09, r24	; 9
+ 1bc:	08 95       	ret
+
+000001be <HALL_dispatch>:
+	
+}
+uint_8 HALL_dispatch()
+{
+	if (flag == 1)
+ 1be:	80 91 61 00 	lds	r24, 0x0061
+ 1c2:	81 30       	cpi	r24, 0x01	; 1
+ 1c4:	21 f4       	brne	.+8      	; 0x1ce <HALL_dispatch+0x10>
+	{
+		while ( !(UCSRA & ( HIGH << RXC )) );
+ 1c6:	5f 9b       	sbis	0x0b, 7	; 11
+ 1c8:	fe cf       	rjmp	.-4      	; 0x1c6 <HALL_dispatch+0x8>
+		
+		return UDR ;
+ 1ca:	8c b1       	in	r24, 0x0c	; 12
+ 1cc:	08 95       	ret
+	}
+	return 0;
+ 1ce:	80 e0       	ldi	r24, 0x00	; 0
+}
+ 1d0:	08 95       	ret
+
+000001d2 <UART_RX_init>:
+ 
+uint_8 g_UART_recieved_data ;
+void UART_RX_init  ()
+{  
+	
+	UART_init_RX_HALL( );
+ 1d2:	0e 94 d5 00 	call	0x1aa	; 0x1aa <UART_init_RX_HALL>
+ 1d6:	08 95       	ret
+
+000001d8 <LCD_init>:
+	
+}
+
+void LCD_init()
+{
+	init_LCD_HALL();
+ 1d8:	0e 94 77 00 	call	0xee	; 0xee <init_LCD_HALL>
+ 1dc:	08 95       	ret
+
+000001de <LCD_PRINT>:
+}
+
+tenum_TF LCD_PRINT  ( uint_8 str_DIS_data )
+{
+	tenum_TF ret_val = TRUE ;
+	if ( str_DIS_data != 0) 
+ 1de:	88 23       	and	r24, r24
+ 1e0:	21 f0       	breq	.+8      	; 0x1ea <LCD_PRINT+0xc>
+	{
+	  LCD_PRINT_HALL ( str_DIS_data );
+ 1e2:	0e 94 a9 00 	call	0x152	; 0x152 <LCD_PRINT_HALL>
+	init_LCD_HALL();
+}
+
+tenum_TF LCD_PRINT  ( uint_8 str_DIS_data )
+{
+	tenum_TF ret_val = TRUE ;
+ 1e6:	80 e0       	ldi	r24, 0x00	; 0
+ 1e8:	08 95       	ret
+	{
+	  LCD_PRINT_HALL ( str_DIS_data );
+	}
+	else
+	{
+		ret_val = FALSE ;
+ 1ea:	81 e0       	ldi	r24, 0x01	; 1
+	}
+	return ret_val ;
+}
+ 1ec:	08 95       	ret
+
+000001ee <start>:
+void start()
+{ 
+	 g_UART_recieved_data  = HALL_dispatch() ;
+ 1ee:	0e 94 df 00 	call	0x1be	; 0x1be <HALL_dispatch>
+ 1f2:	80 93 62 00 	sts	0x0062, r24
+	 LCD_PRINT( g_UART_recieved_data);
+ 1f6:	0e 94 ef 00 	call	0x1de	; 0x1de <LCD_PRINT>
+ 1fa:	08 95       	ret
+
+000001fc <_exit>:
+ 1fc:	f8 94       	cli
+
+000001fe <__stop_program>:
+ 1fe:	ff cf       	rjmp	.-2      	; 0x1fe <__stop_program>
