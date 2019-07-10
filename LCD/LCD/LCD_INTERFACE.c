@@ -5,15 +5,11 @@
  *  Author: AG PC
  */ 
 #include "common.h"
+#include "LCD.h"
 #include <avr/io.h>
 #include <util/delay.h>
 
-#define LCD_DPORT PORTA
-#define LCD_DDDRA DDRA 
-#define LCD_DPINA PINA
-#define LCD_CPORT PORTB
-#define LCD_CDDRB DDRB
-#define LCD_CPINB PINB
+
 #define LCD_RS 0
 #define LCD_RW 1
 #define LCD_EN 2
@@ -30,7 +26,7 @@ tenum_TF lcdcommand( uint_8 cmmd)
 		 LCD_CPORT |=  (1<< LCD_EN);
 		 _delay_us(1);
 		 LCD_CPORT &= ~(1<< LCD_EN);
-		 _delay_us(100);
+		 _delay_us(100); //if there is anthor caller in the next line 
 	 }
 	 else
 	 {
@@ -92,7 +88,6 @@ tenum_TF LCD_PRINT  ( uint_8 * str_DIS_data)
 		while ( str_DIS_data[i] != 0)
 		{
 			lcddata(str_DIS_data[i]);
-			_delay_ms(50);
 			i++ ;
 	
 		}
@@ -102,14 +97,4 @@ tenum_TF LCD_PRINT  ( uint_8 * str_DIS_data)
 		ret_val = FALSE ;
 	}
 	return ret_val ;
-}
-void LCD_CLEAR  ()
-{
-	lcdcommand( 0x01);
-	
-}
-void deinit_LCD  ()
-{
-	LCD_DDDRA = 0x00 ;
-	LCD_CDDRB = 0x00 ;
 }

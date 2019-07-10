@@ -1,3 +1,8 @@
+
+
+
+
+
 /*
  * LCD.c
  *
@@ -8,25 +13,15 @@
 
 #include <avr/io.h>
 #include "LCD.h"
-#include <util/delay.h>
+
 int main(void)
 {
-	init_LCD  ();
+	/*init_LCD  ();
 	LCD_goto_xy( 1 , 1);
-	LCD_PRINT  ( " Hallo There ");
-	_delay_ms(1000);
+	LCD_PRINT  ('0');
 	LCD_goto_xy( 1 , 2);
-	LCD_PRINT  ( "Mohamed with you :)");
-	_delay_ms(1000);
-	LCD_goto_xy( 1 , 3);
-	LCD_PRINT  ( " How it's going ");
-	_delay_ms(1000);
-	LCD_goto_xy( 1 , 4);
-	LCD_PRINT  ( "I hope that you'r ok");
-	_delay_ms(1000);
-	LCD_CLEAR();
-	_delay_ms(2000);
-	deinit_LCD  ();
+	LCD_PRINT  ( '1');
+	*/
     while(1)
     {
         //TODO:: Please write your application code 
