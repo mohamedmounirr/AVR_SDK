@@ -52,13 +52,13 @@ void USART_RX_init  ()
 }
 void   USART_TX_init  ()
 {
-	UCSRC |= ( HIGH << TXCIE ) | ( TXEN ) ;
+	UCSRB |= ( HIGH << TXCIE ) | ( TXEN ) ;
 	UCSRC |= ( HIGH << URSEL) | ( HIGH << UCSZ1)  | ( HIGH << UCSZ0) ;
 	UBRRL  = 0x33 ;
 }
 void USART_Transmit( uint_8 data )
 {
-	while( !(UCSRC & (1 << UDRE)) );
+	while( !(UCSRA & (1 << UDRE)) );
 	
 	UDR = data ;
 }
