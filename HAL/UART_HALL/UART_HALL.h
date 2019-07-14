@@ -11,8 +11,8 @@
 #include "common.h"
 
 void   USART_RX_init    ( );
-void   USART_TX_init    ( );
-void USART_Transmit( uint_8 data );
+void   USART_TX_init    ( void (*cb)() );
+int_s8 USART_Transmit( uint_8 data );
 unsigned char USART_Receive ();
 
 

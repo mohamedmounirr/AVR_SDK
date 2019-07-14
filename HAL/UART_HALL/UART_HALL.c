@@ -40,33 +40,44 @@
 #define  HIGH 1
 #define  LOW  0
 
+void (*cb_f)(); 
+
+ISR(USART_UDRE_vect)
+{
+	
+	cb_f();
+}
+
 void USART_RX_init  ()
 {
 	UCSRB |= ( HIGH << RXCIE ) | ( HIGH << RXEN ) ;
 	UCSRC |= ( HIGH << URSEL) | ( HIGH << UCSZ1)  | ( HIGH << UCSZ0) ;
+	UBRRL  = 0x33 ;
+	UBRRH = (0x33 >> 8);
+	
+	
+}
+void   USART_TX_init  ( void (*cb)() )
+{
+	cb_f = cb;
+	UCSRB |= ( HIGH << TXCIE ) | ( HIGH << TXEN ) | ( HIGH << UDRIE) ;
+	UCSRC |= ( HIGH << URSEL) | ( HIGH << UCSZ1)  | ( HIGH << UCSZ0) ;
 	UBRRH = 0x00;
 	UBRRL  = 0x33 ;
-	
-	
-	
+		
 }
-void   USART_TX_init  ()
+int_s8 USART_Transmit( uint_8 data )
 {
-	UCSRB |= ( HIGH << TXCIE ) | ( TXEN ) ;
-	UCSRC |= ( HIGH << URSEL) | ( HIGH << UCSZ1)  | ( HIGH << UCSZ0) ;
-	UBRRL  = 0x33 ;
-}
-void USART_Transmit( uint_8 data )
-{
-	while( !(UCSRA & (1 << UDRE)) );
 	
+	//while( !(UCSRA & (1 << UDRE)) );
 	UDR = data ;
+
+	return DONE ;
 }
 unsigned char USART_Receive ()
 {
-		while ( !(UCSRA & ( HIGH << RXC )) );
-		
-		return UDR ;
+	//while ( !(UCSRA & ( HIGH << RXC )) );
+  	
+	return UDR ;
 	
-	return 0;
 }

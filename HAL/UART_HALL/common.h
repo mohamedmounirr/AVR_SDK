@@ -8,6 +8,7 @@
 
 #ifndef COMMON_H_
 #define COMMON_H_
+#define  NULL ((uint_8*)0)
 typedef enum
 {
 	E_TRUE = 0 ,
